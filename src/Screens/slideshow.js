@@ -1,5 +1,6 @@
 import React from 'react';
-import { Carousel } from 'react-bootstrap';
+import { Carousel, Nav } from 'react-bootstrap';
+import Navbar from './navbar';
 
 const CarouselComponent = () => {
   const imageStyle = {
@@ -9,6 +10,8 @@ const CarouselComponent = () => {
 
   
   return (
+    <>
+    <Navbar/>
     <Carousel interval={2000}>
       {/* Adjust the interval value (in milliseconds) as needed */}
       <Carousel.Item>
@@ -44,6 +47,7 @@ const CarouselComponent = () => {
         />
       </Carousel.Item>
     </Carousel>
+    </>
   );
 }
 

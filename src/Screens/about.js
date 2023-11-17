@@ -1,8 +1,10 @@
 import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
-
+import { Container, Row, Col, NavbarBrand } from 'react-bootstrap';
+import Navbar from './navbar';
 const About = () => {
   return (
+    <>
+    <Navbar/>
     <Container className="mt-5 text-center">
             <h2 style={{ backgroundColor: 'black', color: 'white', padding: '15px' }}>
             Our Mission
@@ -66,6 +68,7 @@ const About = () => {
         </Row>
         <Row className="mb-5"></Row>
         </Container>
+        </>
         );
 };
 

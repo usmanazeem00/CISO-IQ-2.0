@@ -1,5 +1,6 @@
 import React from 'react';
-
+import Navbar from './navbar';
+import { Nav } from 'react-bootstrap';
 const ProductCard = ({ imageUrl, badges, productName, category, originalPrice, discountedPrice }) => {
   return (
     <div className="col-lg-4 col-md-12 mb-4">
@@ -70,6 +71,8 @@ const BestsellersSection = () => {
   ];
 
   return (
+    <>
+    <Navbar/>
     <section style={{ backgroundColor: '#eee' }}>
       <div className="text-center container py-5">
         <h4 className="mt-4 mb-5"><strong>Bestsellers</strong></h4>
@@ -81,6 +84,7 @@ const BestsellersSection = () => {
         </div>
       </div>
     </section>
+    </>
   );
 };
 
