@@ -13,7 +13,7 @@ const Login = () => {
   return (
     <div style={{ backgroundColor: 'black', height: '100vh' }}>
       <div className="row justify-content-center">
-        <img src="/Images/black.png" style={{ height: 250, width: 250 }} alt="Logo" />
+        <img src="/Images/loginlogo.png" style={{ height: 250, width: 250 }} alt="Logo" />
       </div>
       <div className="container mt-5">
         <div className="row justify-content-center">
