@@ -24,31 +24,35 @@ const Footer = () => {
         <small style={copyrightStyle} className="copyright">
           Copyright &copy; 2023 Vogue-Vista Limited. All Rights Reserved.
         </small>
-        <a href="#" className="pull-right">
-          <small style={iconStyle}>
-            <FaSkype />
-          </small>
-        </a>
-        <a href="#" className="pull-right">
-          <small style={iconStyle}>
-            <FaGooglePlus />
-          </small>
-        </a>
-        <a href="#" className="pull-right">
-          <small style={iconStyle}>
-            <FaLinkedin />
-          </small>
-        </a>
-        <a href="#" className="pull-right">
-          <small style={iconStyle}>
-            <FaTwitter />
-          </small>
-        </a>
-        <a href="#" className="pull-right">
-          <small style={iconStyle}>
-            <FaFacebook />
-          </small>
-        </a>
+        <a href="https://www.skype.com/" className="pull-right" target="_blank" rel="noopener noreferrer">
+  <small style={iconStyle}>
+    <FaSkype />
+  </small>
+</a>
+
+<a href="https://plus.google.com/" className="pull-right" target="_blank" rel="noopener noreferrer">
+  <small style={iconStyle}>
+    <FaGooglePlus />
+  </small>
+</a>
+
+<a href="https://www.linkedin.com/" className="pull-right" target="_blank" rel="noopener noreferrer">
+  <small style={iconStyle}>
+    <FaLinkedin />
+  </small>
+</a>
+
+<a href="https://twitter.com/" className="pull-right" target="_blank" rel="noopener noreferrer">
+  <small style={iconStyle}>
+    <FaTwitter />
+  </small>
+</a>
+
+<a href="https://www.facebook.com/" className="pull-right" target="_blank" rel="noopener noreferrer">
+  <small style={iconStyle}>
+    <FaFacebook />
+  </small>
+</a>
       </Container>
     </footer>
   );
