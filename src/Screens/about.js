@@ -43,14 +43,14 @@ const About = () => {
         </h2>
         <div class="card-group">
         <div class="card">
-            <img class="card-img-top" src="./Images/Zaid.JPG" alt="Card image cap" style={{height:500}}/>
+            <img class="card-img-top" src="./Images/Pathan.jpeg" alt="Card image cap" style={{height:500}}/>
             <div class="card-body">
             <h5 class="card-title">Zaid Khan</h5>
             <p class="card-text">Zaid, our dynamic COO, leads Vogue Vista with a visionary approach, driving innovation and global growth. His commitment to excellence sets the stage for redefining fashion, ensuring unparalleled quality and individual expression.</p>
             </div>
         </div>
         <div class="card">
-            <img class="card-img-top" src="./Images/Usama.JPG" alt="Card image cap" style={{height:500}}/>
+            <img class="card-img-top" src="./Images/Sidhu.jpg" alt="Card image cap" style={{height:500}}/>
             <div class="card-body">
             <h5 class="card-title">Muhammad Usama</h5>
             <p class="card-text">As CEO, Usama oversees Vogue Vista's operations with precision, ensuring seamless logistics and a commitment to quality. His leadership enhances the brand's efficiency, delivering an exceptional experience to our customers.</p>
