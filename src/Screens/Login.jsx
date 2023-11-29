@@ -1,8 +1,21 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-
+import { useEffect,useState } from 'react';
 const Login = () => {
+  const [back,setback]=useState([{}])
+  useEffect(()=>{
+fetch("/api").then(
+  response=>response.json()
+).then(
+  data=>setback(data)
+)
+  },[])
+  useEffect(() => {
+    // Log or use the updated num value here
+    console.log('Updated back',back);
+  }, [back]); // Run this effect whenever num changes
+
   const navigate = useNavigate();
 
   const handleSubmit = (event) => {
@@ -12,6 +25,10 @@ const Login = () => {
 
   return (
     <div style={{ backgroundColor: 'black', height: '100vh' }}>
+     <div style={{ color: 'white' }}>
+  {typeof back.users === 'undefined' ? <p></p> : back.users.map((user,i)=><p>{user[0] +" "+ user[1]}</p>)}
+</div>
+
       <div className="row justify-content-center">
         <img src="/Images/loginlogo.png" style={{ height: 250, width: 250 }} alt="Logo" />
       </div>
