@@ -13,9 +13,29 @@ app.get("/api", async (req, res) => {
     console.log('All Users:', allUsers);
 
     // Send the users in the response
-    res.json({ users: allUsers.map(user =>( [user.name,user.password])) });
+    res.json({ users: allUsers.map(user =>( [user.emai,user.password])) });
   } catch (error) {
     console.error('Error reading data:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+app.get("/api/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // Read the user from the database based on email and password
+    const user = await Users.findOne({ email: email, password: password });
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    console.log('User:', user);
+
+    // Send the user data in the response
+    res.json({ user: { name: user.name, email: user.email } });
+  } catch (error) {
+    console.error('Error reading user data:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
@@ -149,6 +169,21 @@ app.put('/api/products/purchase/:id', async (req, res) => {
     res.status(500).send('Error occurred');
   }
 });
+
+
+//Get a specific Gender Products
+app.get('/api/products/category', async (req, res) => {
+  try {
+    const gender = req.query.gender || 'Uni'; 
+    const products = await Product.find({ gender: gender });
+    
+    res.json({ products: products.map(product=>([product.productid,product.title,product.quantity,product.description,product.gender]))});
+  } catch (error) {
+    console.error('Error reading product data:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 
 mongoose.connect('mongodb://localhost:27017/Users', {
   useNewUrlParser: true,
