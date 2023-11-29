@@ -13,7 +13,7 @@ app.get("/api", async (req, res) => {
     console.log('All Users:', allUsers);
 
     // Send the users in the response
-    res.json({ users: allUsers.map(user =>( [user.emai,user.password])) });
+    res.json({ users: allUsers.map(user =>( [user.name,user.password])) });
   } catch (error) {
     console.error('Error reading data:', error);
     res.status(500).json({ error: 'Internal Server Error' });
