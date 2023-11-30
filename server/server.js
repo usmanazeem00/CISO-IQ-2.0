@@ -180,9 +180,9 @@ app.get('/api/products/category', async (req, res) => {
     res.json({ products: products.map(product=>([product.productid,product.title,product.quantity,product.description,product.gender]))});
   } catch (error) {
     console.error('Error reading product data:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: 'Internal Servers Error' });
   }
-});
+}); 
 
 
 mongoose.connect('mongodb://localhost:27017/Users', {
