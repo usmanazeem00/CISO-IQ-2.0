@@ -93,7 +93,6 @@ app.post('/api/products/add', async (req, res) => {
 });
 
 // DELETE endpoint to remove a product by ID
-// DELETE endpoint to remove a product by ID
 app.delete('/api/products/:id', async (req, res) => {
   try {
     const productId = req.params.id;
