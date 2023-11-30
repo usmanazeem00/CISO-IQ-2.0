@@ -6,7 +6,7 @@ const ProductCard = ({ imageUrl, badges, productName, category, originalPrice, d
     <div className="col-lg-4 col-md-12 mb-4">
       <div className="card">
         <div className="bg-image hover-zoom ripple ripple-surface ripple-surface-light" data-mdb-ripple-color="light">
-          <img src={imageUrl} className="w-100" alt="Product" />
+          <img src={imageUrl} style={{width:200,height:400}} className="w-100"  />
           <a href="#!">
             <div className="mask">
               <div className="d-flex justify-content-start align-items-end h-100">
@@ -44,25 +44,25 @@ const BestsellersSection = () => {
   const products = [
     // Provide an array of product data
     {
-      imageUrl: './Images/Cover 1.png',
+      imageUrl: './Images/safari1.jpg',
       badges: [{ text: 'New', color: 'bg-primary' }],
-      productName: 'Product 1',
+      productName: 'Safari Suit',
       category: 'Category 1',
       originalPrice: '$61.99',
       discountedPrice: null,
     },
     {
-      imageUrl: './Images/Cover 2.png',
+      imageUrl: './Images/coat1.jpg',
       badges: [{ text: 'New', color: 'bg-primary' }],
-      productName: 'Product 1',
+      productName: 'Coat',
       category: 'Category 1',
       originalPrice: '$61.99',
       discountedPrice: null,
     },
     {
-      imageUrl: './Images/Cover 3.png',
+      imageUrl: './Images/jacket.jpg',
       badges: [{ text: 'New', color: 'bg-primary' }],
-      productName: 'Product 1',
+      productName: 'Jacket',
       category: 'Category 1',
       originalPrice: '$61.99',
       discountedPrice: null,

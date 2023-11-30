@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const Users = require('./user.model');
 const Product=require('./product.model')
+const CheckOut=require('./checkout.model')
 const bodyParser = require('body-parser')
 const app = express();
 app.use(bodyParser.json())
@@ -183,6 +184,28 @@ app.get('/api/products/category', async (req, res) => {
   }
 });
 
+// add a checkout
+app.post('/api/checkout', async (req, res) => {
+  try {
+    const { useremail, products, totalBill, paymentMethod } = req.body;
+    console.log('Received Request Payload:', req.body);
+    const newCheckout = new CheckOut({
+      useremail,
+      products,
+      totalBill,
+      paymentMethod,
+    });
+
+    const savedCheckout = await newCheckout.save();
+console.log('Saved Checkout:', savedCheckout);
+res.json(newCheckout)
+    
+  } catch (error) {
+    console.error('Error adding checkout:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 
 mongoose.connect('mongodb://localhost:27017/Users', {
   useNewUrlParser: true,
@@ -199,3 +222,5 @@ db.once('open', () => {
 app.listen(3000, () => {
   console.log("Server started on port 3000");
 });
+
+

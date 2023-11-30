@@ -17,7 +17,7 @@ const CarouselComponent = () => {
       <Carousel.Item>
         <img
           className="d-block w-100"
-          src="/Images/Cover 1.png"
+          src="/Images/def.png"
           alt="Unable to Display Picture"
           style={imageStyle}
         />
@@ -25,7 +25,7 @@ const CarouselComponent = () => {
       <Carousel.Item>
         <img
           className="d-block w-100"
-          src="/Images/Cover 2.png"
+          src="/Images/ghi.png"
           alt="Unable to Display Picture"
           style={imageStyle}
         />
@@ -33,7 +33,7 @@ const CarouselComponent = () => {
       <Carousel.Item>
         <img
           className="d-block w-100"
-          src="/Images/Cover 3.png"
+          src="/Images/def.png"
           alt="Unable to Display Picture"
           style={imageStyle}
         />
@@ -41,7 +41,7 @@ const CarouselComponent = () => {
       <Carousel.Item>
         <img
           className="d-block w-100"
-          src="/Images/Cover 4.png"
+          src="/Images/abc.png"
           alt="Unable to Display Picture"
           style={imageStyle}
         />
