@@ -14,7 +14,7 @@ return(
 <Routes>
 <Route path="/" element={<Login />}/>
 <Route path="/home" element={<Slideshow/>}/>
-<Route path="/products" element={<ProductCard />}/>
+<Route path="/products/:gender" element={<ProductCard />}/>
 <Route path="/about" element={<About />}/>
 <Route path="/contact_us" element={<ContactUs />}/>
 <Route path="/signup" element={<Signup/>}/>

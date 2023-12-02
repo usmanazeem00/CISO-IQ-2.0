@@ -1,19 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useEffect } from 'react';
 import Navbar from './navbar';
+import { useParams } from 'react-router-dom';
 import { Nav } from 'react-bootstrap';
-const ProductCard = ({ imageUrl, badges, productName, category, originalPrice, discountedPrice }) => {
+const ProductCard = (props) => {
+  console.log(props)
   return (
     <div className="col-lg-4 col-md-12 mb-4">
       <div className="card">
+        <div>&nbsp;</div>
         <div className="bg-image hover-zoom ripple ripple-surface ripple-surface-light" data-mdb-ripple-color="light">
-          <img src={imageUrl} style={{width:200,height:400}} className="w-100"  />
+          <img src={props[4]} style={{ width: 200, height: 400 }} className="w-100" />
           <a href="#!">
             <div className="mask">
-              <div className="d-flex justify-content-start align-items-end h-100">
-                {badges && badges.map((badge, index) => (
-                  <h5 key={index}><span className={`badge ${badge.color} ms-2`}>{badge.text}</span></h5>
-                ))}
-              </div>
+              <div className="d-flex justify-content-start align-items-end h-100"></div>
             </div>
             <div className="hover-overlay">
               <div className="mask" style={{ backgroundColor: 'rgba(251, 251, 251, 0.15)' }}></div>
@@ -22,18 +22,14 @@ const ProductCard = ({ imageUrl, badges, productName, category, originalPrice, d
         </div>
         <div className="card-body">
           <a href="/" className="text-reset">
-            <h5 className="card-title mb-3">{productName}</h5>
+            <h5 className="card-title mb-3">{props[1]}</h5>
           </a>
           <a href="/" className="text-reset">
-            <p>{category}</p>
+            <p>{props.description}</p>
           </a>
-          {discountedPrice ? (
-            <h6 className="mb-3">
-              <s>{originalPrice}</s><strong className="ms-2 text-danger">{discountedPrice}</strong>
+          <h6 className="mb-3">
+              <s>{props[6]+props[6]*0.25}</s><strong className="ms-2 text-danger">{props[6]}</strong>
             </h6>
-          ) : (
-            <h6 className="mb-3">{originalPrice}</h6>
-          )}
         </div>
       </div>
     </div>
@@ -41,49 +37,45 @@ const ProductCard = ({ imageUrl, badges, productName, category, originalPrice, d
 };
 
 const BestsellersSection = () => {
-  const products = [
-    // Provide an array of product data
-    {
-      imageUrl: './Images/safari1.jpg',
-      badges: [{ text: 'New', color: 'bg-primary' }],
-      productName: 'Safari Suit',
-      category: 'Category 1',
-      originalPrice: '$61.99',
-      discountedPrice: null,
-    },
-    {
-      imageUrl: './Images/coat1.jpg',
-      badges: [{ text: 'New', color: 'bg-primary' }],
-      productName: 'Coat',
-      category: 'Category 1',
-      originalPrice: '$61.99',
-      discountedPrice: null,
-    },
-    {
-      imageUrl: './Images/jacket.jpg',
-      badges: [{ text: 'New', color: 'bg-primary' }],
-      productName: 'Jacket',
-      category: 'Category 1',
-      originalPrice: '$61.99',
-      discountedPrice: null,
-    },
-    // Add more product objects as needed
-  ];
+  const [products, setProducts] = useState([]);
+  const { gender } = useParams();
+  const Gender = gender === "men" ? "Male" : "Female";
+  console.log(Gender);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch('/api/products/');
+        if (response.ok) {
+          const data = await response.json();
+          // Filter products based on the gender
+          const filteredProducts = data.products.filter((pord) => pord[5] === Gender);
+          setProducts(filteredProducts);
+        } else {
+          console.error('Failed to fetch products:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+
+    fetchProducts();
+  }, [Gender]);
 
   return (
     <>
-    <Navbar/>
-    <section style={{ backgroundColor: '#eee' }}>
-      <div className="text-center container py-5">
-        <h4 className="mt-4 mb-5"><strong>Bestsellers</strong></h4>
+      <Navbar />
+      <section style={{ backgroundColor: '#eee' }}>
+        <div className="text-center container py-5">
+          <h4 className="mt-4 mb-5"><strong>{gender.toUpperCase() + "'S COLLECTION"}</strong></h4>
 
-        <div className="row">
-          {products.map((product, index) => (
-            <ProductCard key={index} {...product} />
-          ))}
+          <div className="row">
+            {products.map((product, index) => (
+              <ProductCard key={index} {...product} />
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
     </>
   );
 };
