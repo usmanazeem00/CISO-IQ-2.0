@@ -1,11 +1,15 @@
 import Navbar from './navbar';
 import React, { useState } from 'react';
 import { Button, InputGroup } from 'react-bootstrap';
+import { addToCart, removeFromCart } from '../productActions';
+import { useDispatch } from 'react-redux';
 
 const ProductCard = ({ imageUrl, badges, productName, category, originalPrice, discountedPrice, updateTotalQuantity }) => {
   const [buttonColor, setButtonColor] = useState('primary');
   const [quantity, setQuantity] = useState(1);
   const [addedToCart, setAddedToCart] = useState(false);
+
+  const dispatch = useDispatch();
 
   const handleAddToCart = () => {
     if (addedToCart || quantity <= 0) {
@@ -13,9 +17,21 @@ const ProductCard = ({ imageUrl, badges, productName, category, originalPrice, d
       return;
     }
 
+   
+
+
     setAddedToCart(true);
     setButtonColor('danger'); // Change button color to red when pressed
     updateTotalQuantity(quantity);
+    const addedProduct = {
+      id: Math.random(),
+      name: productName,
+      price: originalPrice,
+      image: imageUrl,
+      quantity: quantity,
+    };
+
+    dispatch(addToCart(addedProduct));
     console.log(`Added ${quantity} ${productName}(s) to the cart`);
   };
 
@@ -73,7 +89,6 @@ const ProductCard = ({ imageUrl, badges, productName, category, originalPrice, d
           </InputGroup>
           <p>Quantity: {quantity}</p>
 
-          {/* Add the "Add to Cart" button in the center */}
           <Button
             variant={buttonColor}
             onClick={handleAddToCart}
