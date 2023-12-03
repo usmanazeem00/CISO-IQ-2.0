@@ -3,7 +3,39 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useEffect,useState } from 'react';
 const Login = () => {
+  const [username, setUsername] = useState('');
+const [password, setPassword] = useState('');
   const [back,setback]=useState([{}])
+  const handleUsernameChange = (e) => setUsername(e.target.value);
+  const handlePasswordChange = (e) => setPassword(e.target.value);
+  const navigate = useNavigate();
+
+  const handleSubmit =async(event)=>{
+    event.preventDefault();
+    try {
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: username, password }),
+      });
+
+      if (response.ok) {
+        const a = await response.json();
+        console.log("abc")
+        navigate('/home');
+      } else {
+        const errorData = await response.json();
+        alert("Wrong Credentials")
+        // Handle login failure, e.g., show an error message to the user
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+   
+  };
+
   useEffect(()=>{
 fetch("/api").then(
   response=>response.json()
@@ -11,18 +43,6 @@ fetch("/api").then(
   data=>setback(data)
 )
   },[])
-  useEffect(() => {
-    // Log or use the updated num value here
-    console.log('Updated back',back);
-  }, [back]); // Run this effect whenever num changes
-
-  const navigate = useNavigate();
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    navigate('/home');
-  };
-
   return (
     <div style={{ backgroundColor: 'black', height: '100vh' }}>
      <div style={{ color: 'white' }}>
@@ -49,7 +69,7 @@ fetch("/api").then(
                 <form onSubmit={handleSubmit}>
                   <div className="form-group">
                     <label htmlFor="username" style={{ fontWeight: '600' }}>
-                      Username:
+                      User Email:
                     </label>
                     <input
                       type="text"
@@ -58,6 +78,7 @@ fetch("/api").then(
                       placeholder="Enter your username"
                       autoComplete="off"
                       required
+                      onChange={handleUsernameChange}
                       style={{ borderRadius: 40 }}
                     />
                   </div>
@@ -69,8 +90,9 @@ fetch("/api").then(
                       type="password"
                       className="form-control"
                       id="password"
-                      minLength={8}
+                      minLength={3}
                       required
+                      onChange={handlePasswordChange}
                       placeholder="Enter your password"
                       style={{ borderRadius: 40 }}
                     />
@@ -85,6 +107,7 @@ fetch("/api").then(
                     type="submit"
                     className="btn btn-primary btn-block"
                     style={{ backgroundColor: 'black', borderRadius: 40 }}
+                    onClick={()=>{console.log("CLICKED")}}
                   >
                     Login
                   </button>
