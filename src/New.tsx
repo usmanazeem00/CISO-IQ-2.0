@@ -5,7 +5,7 @@ import About from './Screens/about.js'
 import ProductCard from './Screens/productcard.js'
 import Slideshow from './Screens/slideshow.js'
 import Signup from "./Screens/Signup.js"
-import ContactUs from "./Screens/contact_us_screen.js"
+import ShoppingCart from './Screens/shoppingcart';
 
 function New()
 {
@@ -16,8 +16,10 @@ return(
 <Route path="/home" element={<Slideshow/>}/>
 <Route path="/products" element={<ProductCard />}/>
 <Route path="/about" element={<About />}/>
-<Route path="/contact_us" element={<ContactUs />}/>
+{/* {<Route path="/contact_us" element={<ContactUs />}/>} */}
 <Route path="/signup" element={<Signup/>}/>
+<Route path="/men" element={<ProductCard/>}/>
+<Route path="/cart" element={<ShoppingCart/>}/>
 </Routes>
 </>
 );

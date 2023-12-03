@@ -4,13 +4,19 @@ import New from './New.tsx';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
-
+import { Provider } from 'react-redux'; // Import the Provider
+import store from './store'; // Assuming you have a Redux store
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
-  <BrowserRouter>
-    <New />
+  <React.StrictMode>
+    <BrowserRouter>
+      <Provider store={store}>
+        <New />
+      </Provider>
     </BrowserRouter>
+  </React.StrictMode>,
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -1,7 +1,55 @@
-import React from 'react';
 import Navbar from './navbar';
-import { Nav } from 'react-bootstrap';
-const ProductCard = ({ imageUrl, badges, productName, category, originalPrice, discountedPrice }) => {
+import React, { useState } from 'react';
+import { Button, InputGroup } from 'react-bootstrap';
+import { addToCart, removeFromCart } from '../productActions';
+import { useDispatch } from 'react-redux';
+
+const ProductCard = ({ imageUrl, badges, productName, category, originalPrice, discountedPrice, updateTotalQuantity }) => {
+  const [buttonColor, setButtonColor] = useState('primary');
+  const [quantity, setQuantity] = useState(1);
+  const [addedToCart, setAddedToCart] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const handleAddToCart = () => {
+    if (addedToCart || quantity <= 0) {
+      console.log(`Product ${productName} is already in the cart or quantity is not valid.`);
+      return;
+    }
+
+   
+
+
+    setAddedToCart(true);
+    setButtonColor('danger'); // Change button color to red when pressed
+    updateTotalQuantity(quantity);
+    const addedProduct = {
+      id: Math.random(),
+      name: productName,
+      price: originalPrice,
+      image: imageUrl,
+      quantity: quantity,
+    };
+
+    dispatch(addToCart(addedProduct));
+    console.log(`Added ${quantity} ${productName}(s) to the cart`);
+  };
+
+  const handleIncreaseQuantity = () => {
+    if (!addedToCart) {
+      setQuantity(quantity + 1);
+    } else {
+      console.log(`Product ${productName} is already in the cart. Cannot increase quantity.`);
+    }
+  };
+
+  const handleDecreaseQuantity = () => {
+    if (!addedToCart && quantity > 1) {
+      setQuantity(quantity - 1);
+    } else {
+      console.log(`Product ${productName} is already in the cart or quantity is at the minimum.`);
+    }
+  };
   return (
     <div className="col-lg-4 col-md-12 mb-4">
       <div className="card">
@@ -34,6 +82,20 @@ const ProductCard = ({ imageUrl, badges, productName, category, originalPrice, d
           ) : (
             <h6 className="mb-3">{originalPrice}</h6>
           )}
+
+          <InputGroup className="mb-3 mx-auto d-flex justify-content-center">
+            <Button variant="outline-secondary" onClick={handleDecreaseQuantity}>-</Button>
+            <Button variant="outline-secondary" onClick={handleIncreaseQuantity}>+</Button>
+          </InputGroup>
+          <p>Quantity: {quantity}</p>
+
+          <Button
+            variant={buttonColor}
+            onClick={handleAddToCart}
+            className="mt-3 mx-auto d-block"
+          >
+            Add to Cart
+          </Button>
         </div>
       </div>
     </div>
@@ -41,8 +103,13 @@ const ProductCard = ({ imageUrl, badges, productName, category, originalPrice, d
 };
 
 const BestsellersSection = () => {
+
+  const [totalQuantity, setTotalQuantity] = useState(0);
+  const handleUpdateTotalQuantity = (quantity) => {
+    setTotalQuantity((prevTotal) => prevTotal + quantity);
+  };
+
   const products = [
-    // Provide an array of product data
     {
       imageUrl: './Images/Cover 1.png',
       badges: [{ text: 'New', color: 'bg-primary' }],
@@ -53,37 +120,42 @@ const BestsellersSection = () => {
     },
     {
       imageUrl: './Images/Cover 2.png',
-      badges: [{ text: 'New', color: 'bg-primary' }],
-      productName: 'Product 1',
-      category: 'Category 1',
-      originalPrice: '$61.99',
-      discountedPrice: null,
+      badges: [{ text: 'New', color: 'bg-danger' }],
+      productName: 'Product 2',
+      category: 'Category 2',
+      originalPrice: '$71.99',
+      discountedPrice: '$59.99',
     },
     {
       imageUrl: './Images/Cover 3.png',
-      badges: [{ text: 'New', color: 'bg-primary' }],
-      productName: 'Product 1',
-      category: 'Category 1',
-      originalPrice: '$61.99',
-      discountedPrice: null,
+      badges: [{ text: 'Sale', color: 'bg-danger' }],
+      productName: 'Product 3',
+      category: 'Category 3',
+      originalPrice: '$49.99',
+      discountedPrice: '$39.99',
     },
     // Add more product objects as needed
   ];
 
   return (
     <>
-    <Navbar/>
-    <section style={{ backgroundColor: '#eee' }}>
-      <div className="text-center container py-5">
-        <h4 className="mt-4 mb-5"><strong>Bestsellers</strong></h4>
-
-        <div className="row">
-          {products.map((product, index) => (
-            <ProductCard key={index} {...product} />
-          ))}
+    <Navbar totalQuantity={totalQuantity}/>
+      <section style={{ backgroundColor: '#eee' }}>
+        <div className="text-center container py-5">
+          <h4 className="mt-4 mb-5"><strong>Bestsellers</strong></h4>
+          <p>Total Quantity in Cart: {totalQuantity}</p>
+          <div className="row">
+            {products.map((product, index) => (
+              <ProductCard
+                key={index}
+                {...product}
+                updateTotalQuantity={handleUpdateTotalQuantity}
+              />
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+     
     </>
   );
 };
