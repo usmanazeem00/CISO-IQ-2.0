@@ -13,7 +13,7 @@ const About = () => {
 
         <Col md={6}>
         <img
-            src="/Images/transparent logo.png"
+            src="/Images/logo.png"
             alt="Vogue Vista Image"
             className="img-fluid"
             style={{ maxWidth: '600px', maxHeight: '300px' }}

@@ -2,9 +2,11 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useEffect,useState } from 'react';
+import { useUser } from './userContext';
 const Login = () => {
   const [username, setUsername] = useState('');
 const [password, setPassword] = useState('');
+const { setUser } = useUser();
   const [back,setback]=useState([{}])
   const handleUsernameChange = (e) => setUsername(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
@@ -12,6 +14,11 @@ const [password, setPassword] = useState('');
 
   const handleSubmit =async(event)=>{
     event.preventDefault();
+if(username==="admin"&&password==="123")
+{
+  navigate('/admin')
+}
+
     try {
       const response = await fetch("/api/login", {
         method: "POST",
@@ -23,7 +30,7 @@ const [password, setPassword] = useState('');
 
       if (response.ok) {
         const a = await response.json();
-        console.log("abc")
+        setUser(username);
         navigate('/home');
       } else {
         const errorData = await response.json();
@@ -46,7 +53,6 @@ fetch("/api").then(
   return (
     <div style={{ backgroundColor: 'black', height: '100vh' }}>
      <div style={{ color: 'white' }}>
-  {typeof back.users === 'undefined' ? <p></p> : back.users.map((user,i)=><p>{user[0] +" "+ user[1]}</p>)}
 </div>
 
       <div className="row justify-content-center">

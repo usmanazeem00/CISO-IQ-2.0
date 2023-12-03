@@ -7,10 +7,22 @@ const initialState = {
 const productReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_TO_CART:
-      return {
-        ...state,
-        addedProducts: [...state.addedProducts, action.payload],
-      };
+      const existingProduct = state.addedProducts.find(product => product.id === action.payload.id);
+      if (existingProduct) {
+        const updatedProducts = state.addedProducts.map(product =>
+          product.id === action.payload.id ? { ...product, quantity: product.quantity + action.payload.quantity } : product
+        );
+        return {
+          ...state,
+          addedProducts: updatedProducts,
+        };
+      } else {
+        return {
+          ...state,
+          addedProducts: [...state.addedProducts, action.payload],
+        };
+  
+      }
 
     case REMOVE_FROM_CART:
       return {

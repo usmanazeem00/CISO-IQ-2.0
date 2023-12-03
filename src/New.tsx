@@ -6,21 +6,30 @@ import ProductCard from './Screens/productcard.js'
 import Slideshow from './Screens/slideshow.js'
 import Signup from "./Screens/Signup.js"
 import ShoppingCart from './Screens/shoppingcart';
-
+import ContactUs from "./Screens/contact_us_screen.js"
+import CheckoutPage from "./Screens/checkout.js"
+import { UserProvider } from "./Screens/userContext.js"
+import OrderSuccess from "./Screens/success.jsx"
+import AdminPanel from "./Screens/adminpanel.js"
 function New()
 {
 return(
 <>
-<Routes>
-<Route path="/" element={<Login />}/>
-<Route path="/home" element={<Slideshow/>}/>
-<Route path="/products/:gender" element={<ProductCard />}/>
-<Route path="/about" element={<About />}/>
-{/* {<Route path="/contact_us" element={<ContactUs />}/>} */}
-<Route path="/signup" element={<Signup/>}/>
-<Route path="/men" element={<ProductCard/>}/>
-<Route path="/cart" element={<ShoppingCart/>}/>
-</Routes>
+<UserProvider>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/home" element={<Slideshow />} />
+        <Route path="/products/:gender" element={<ProductCard />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact_us" element={<ContactUs />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/men" element={<ProductCard />} />
+        <Route path="/cart" element={<ShoppingCart />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/ordersuccess" element={<OrderSuccess />} />
+        <Route path="/admin" element={<AdminPanel />} />
+      </Routes>
+    </UserProvider>
 </>
 );
 }

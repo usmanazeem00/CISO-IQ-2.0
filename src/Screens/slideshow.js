@@ -1,6 +1,7 @@
 import React from 'react';
 import { Carousel, Nav } from 'react-bootstrap';
 import Navbar from './navbar';
+import BestsellersSection from './productcard';
 
 const CarouselComponent = () => {
   const imageStyle = {
@@ -47,6 +48,7 @@ const CarouselComponent = () => {
         />
       </Carousel.Item>
     </Carousel>
+    <BestsellersSection/>
     </>
   );
 }

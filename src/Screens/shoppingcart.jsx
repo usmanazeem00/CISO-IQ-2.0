@@ -4,12 +4,21 @@ import { Button, Table } from "react-bootstrap";
 import { useSelector } from 'react-redux';
 import { addToCart, removeFromCart } from '../productActions';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from "react-router";
 import { BsCartPlus } from 'react-icons/bs';
-
+import { BiListOl } from "react-icons/bi";
 
 const ShoppingCart = () => {
+  const navigate = useNavigate();
     const dummyProductList = useSelector(state => state.addedProducts);
-  const [cartItems, setCartItems] = useState(dummyProductList);
+  
+  const uniqueProducts = Array.from(new Set(dummyProductList.map((product) => product.id)))
+  .map((id) => dummyProductList.find((product) => product.id === id));
+
+  const q= dummyProductList.reduce((totalprice, product) => totalprice + product.price*product.quantity, 0);
+  const [bill,setBill]=useState(q)
+  console.log("TOTAL BILL: "+bill)
+const [cartItems, setCartItems] = useState(uniqueProducts);
   const dispatch = useDispatch();
 
   const addItemToCart = (item) => {
@@ -20,6 +29,7 @@ const ShoppingCart = () => {
   const checkoutHandler = () => {
     // Add your logic for the checkout functionality
     console.log("Checkout clicked!");
+    navigate('/checkout', { state: { price: bill,cart:cartItems} });
   };
   const removeItemFromCart = (index) => {
     setCartItems((prevCartItems) => {
@@ -67,7 +77,7 @@ const ShoppingCart = () => {
                     />
                   </td>
                   <td>{item.name}</td>
-                  <td>${item.price}</td>
+                  <td>Rs.{item.price}</td>
                   <td>Qty: {item.quantity}</td>
                   <td>
                     <Button

@@ -5,7 +5,38 @@ const Product=require('./product.model')
 const CheckOut=require('./checkout.model')
 const bodyParser = require('body-parser')
 const app = express();
+const nodemailer = require('nodemailer');
 app.use(bodyParser.json())
+ 
+app.post('/send-email', async (req, res) => {
+  try {
+    
+    const { to, subject, text } = req.body;
+
+    let mailTransporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'azeemmuhammadusman@gmail.com',
+        pass: 'sxuxxjwhzcwcngpn'
+      }
+    });
+
+    let mailDetails = {
+      from: 'azeemmuhammadusman@gmail.com',
+      to,
+      subject,
+      text
+    };
+
+    const info = await mailTransporter.sendMail(mailDetails);
+    console.log('Email sent successfully:', info);
+
+    res.status(200).json({ message: 'Email sent successfully', info });
+  } catch (error) {
+    console.error('Error sending email:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 app.get("/api", async (req, res) => {
   try {

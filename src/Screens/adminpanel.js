@@ -1,161 +1,172 @@
 import React, { useState } from 'react';
-
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 const AdminPanel = () => {
+  const navigation=useNavigate()
   const [formData, setFormData] = useState({
-    imageUrl: '',
-    badges: [{ text: '', color: '' }],
-    productName: '',
-    category: '',
-    originalPrice: '',
-    discountedPrice: '',
+    productid: '',
+      title: '',
+      gender: '',
+      price: 0,
+      description:'',
+      image: '',
+      quantity: 0,
   });
-
-  const badgeColors = ['bg-danger', 'bg-primary']; 
-  const badgeTexts = ['New', 'Sale']; 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: name === 'productid' || name === 'price' || name === 'quantity' ? parseInt(value) : value,
     }));
   };
 
-  const handleBadgeChange = (field, value) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      badges: [{ ...prevData.badges[0], [field]: value }],
-    }));
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log('Form Data:', formData);
+
+try {
+       const response = await fetch('/api/products/add', {
+         method: 'POST',
+         headers: {
+           'Content-Type': 'application/json',
+         },
+         body: JSON.stringify(formData),
+       });
+
+       if (!response.ok) {
+         // Handle the error, e.g., show a message to the user
+         console.error('Failed to add product:', response.statusText);
+         return;
+       }
+
+       const data = await response.json();
+//       // Handle the response data as needed
+alert('Product Added Successfully')
+       console.log('Product added successfully:', data.product);
+     } catch (error) {
+       // Handle any unexpected errors
+       console.error('Error adding product:', error.message);
+   }
+
+    // Clear the form fields after submission
     setFormData({
-      imageUrl: '',
-      badges: [{ text: '', color: '' }],
-      productName: '',
-      category: '',
-      originalPrice: '',
-      discountedPrice: '',
+      productid: 0,
+      title: '',
+      gender: '',
+      price: 0,
+      description:'',
+      image: '',
+      quantity: 0,
     });
   };
 
   return (
     <div className="container mt-5">
-    <div className="row">
-      <div className="col-md-6 mb-5">
-        <img
-          src={"/Images/transparent logo.png"}
-          alt="Vogue Vista Image"
-          className="img-fluid"
-          style={{ maxWidth: '700px', maxHeight: '600px' }}
-        />
-      </div>
-      <div className="col-md-6">
-        <h2 style={{ backgroundColor: 'black', color: 'white', padding: '15px' }}>
-          Admin Panel
-        </h2>
-  
-        <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <label className="form-label">Image URL:</label>
-            <input
-              type="text"
-              name="imageUrl"
-              value={formData.imageUrl}
-              onChange={handleChange}
-              className="form-control"
-            />
-          </div>
-  
-          <div className="row">
-            <div className="col-md-6 mb-3">
-              <label className="form-label">Badge Text:</label>
-              <select
-                name="badgeText"
-                value={formData.badges[0].text}
-                onChange={(e) => handleBadgeChange('text', e.target.value)}
-                className="form-select"
-              >
-                <option value="" disabled hidden>Select Badge Text</option>
-                {badgeTexts.map((text, index) => (
-                  <option key={index} value={text}>
-                    {text}
-                  </option>
-                ))}
-              </select>
+      <div className="row">
+        <div className="col-md-6 mb-5">
+          <img
+            src={"/Images/logo.png"}
+            alt="Vogue Vista Image"
+            className="img-fluid"
+            style={{ height:500,width:500 }}
+          />
+        </div>
+        <div className="col-md-6">
+          <h2 style={{ backgroundColor: 'black', color: 'white', padding: '15px' }}>
+            Admin Panel
+          </h2>
+
+          <form onSubmit={handleSubmit}>
+            <div className="mb-3">
+              <label className="form-label">Product ID:</label>
+              <input
+           type="number"
+                name="productid"
+                value={formData.productid}
+                onChange={handleChange}
+                className="form-control"
+              />
             </div>
-  
-            <div className="col-md-6 mb-3">
-              <label className="form-label">Badge Color:</label>
-              <select
-                name="badgeColor"
-                value={formData.badges[0].color}
-                onChange={(e) => handleBadgeChange('color', e.target.value)}
-                className="form-select"
-              >
-                <option value="" disabled hidden>Select Badge Color</option>
-                {badgeColors.map((color, index) => (
-                  <option key={index} value={color}>
-                    {color}
-                  </option>
-                ))}
-              </select>
+
+            <div className="mb-3">
+              <label className="form-label">Image URL:</label>
+              <input
+                type="text"
+                name="image"
+                value={formData.image}
+                onChange={handleChange}
+                className="form-control"
+              />
             </div>
-          </div>
-  
-          <div className="mb-3">
-            <label className="form-label">Product Name:</label>
-            <input
-              type="text"
-              name="productName"
-              value={formData.productName}
-              onChange={handleChange}
-              className="form-control"
-            />
-          </div>
-  
-          <div className="mb-3">
-            <label className="form-label">Category:</label>
-            <input
-              type="text"
-              name="category"
-              value={formData.category}
-              onChange={handleChange}
-              className="form-control"
-            />
-          </div>
-  
-          <div className="mb-3">
-            <label className="form-label">Original Price:</label>
-            <input
-              type="text"
-              name="originalPrice"
-              value={formData.originalPrice}
-              onChange={handleChange}
-              className="form-control"
-            />
-          </div>
-  
-          <div className="mb-3">
-            <label className="form-label">Discounted Price:</label>
-            <input
-              type="text"
-              name="discountedPrice"
-              value={formData.discountedPrice}
-              onChange={handleChange}
-              className="form-control"
-            />
-          </div>
-  
-          <button type="submit" className="btn btn-primary">
-            Submit
-          </button>
-        </form>
+
+            <div className="mb-3">
+              <label className="form-label">Product Name:</label>
+              <input
+                type="text"
+                name="title"
+                value={formData.title}
+                onChange={handleChange}
+                className="form-control"
+              />
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Description:</label>
+              <input
+                type="text"
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+                className="form-control"
+              />
+            </div>
+
+            <div className="mb-3">
+  <label className="form-label">Gender:</label>
+  <select
+    name="gender"
+    value={formData.gender}
+    onChange={handleChange}
+    className="form-select"
+  >
+    <option value="" disabled hidden>Select Gender</option>
+    <option value="Male">Male</option>
+    <option value="Female">Female</option>
+  </select>
+</div>
+
+            <div className="mb-3">
+              <label className="form-label">Price:</label>
+              <input
+                type="number"
+                name="price"
+                value={formData.price}
+                onChange={handleChange}
+                className="form-control"
+              />
+            </div>
+
+            <div className="mb-3">
+              <label className="form-label">Quantity:</label>
+              <input
+                type="number"
+                name="quantity"
+                value={formData.quantity}
+                onChange={handleChange}
+                className="form-control"
+              />
+            </div>
+
+            <button type="submit" className="btn btn-primary">
+              Submit
+            </button>
+            <Link to="/" className="btn btn-outline-danger ms-3" style={{position:'absolute', right:30}}>
+              Logout
+            </Link>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
   );
 };
 
