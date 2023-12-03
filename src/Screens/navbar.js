@@ -6,6 +6,7 @@ import Slideshow from './slideshow.js';
 const Navbar = () => {
   return (
     <>
+    <h1>helloooo</h1>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
           <h4>Vouge Vista</h4>
