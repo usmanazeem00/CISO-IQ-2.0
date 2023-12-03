@@ -40,6 +40,11 @@ const ShoppingCart = () => {
     setCartItems(updatedCart);
   };
 
+  const checkoutHandler = () => {
+    // Add your logic for the checkout functionality
+    console.log("Checkout clicked!");
+  };
+
   return (
     <>
       <Navbar />
@@ -80,6 +85,14 @@ const ShoppingCart = () => {
               ))}
             </tbody>
           </Table>
+        )}
+
+        {cartItems.length > 0 && (
+          <div className="text-center">
+            <Button variant="primary" onClick={checkoutHandler}>
+              Checkout
+            </Button>
+          </div>
         )}
 
         <h2 className="mt-4">Product List</h2>
