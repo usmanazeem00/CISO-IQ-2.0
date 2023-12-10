@@ -11,12 +11,15 @@ import CheckoutPage from "./Screens/checkout.js"
 import { UserProvider } from "./Screens/userContext.js"
 import OrderSuccess from "./Screens/success.jsx"
 import AdminPanel from "./Screens/adminpanel.js"
+import App from "./App.tsx"
+import Book from "./Book.tsx"
 function New()
 {
 return(
 <>
 <UserProvider>
       <Routes>
+        <Route path="/app" element={<Book/>}/>
         <Route path="/" element={<Login />} />
         <Route path="/home" element={<Slideshow />} />
         <Route path="/products/:gender" element={<ProductCard />} />

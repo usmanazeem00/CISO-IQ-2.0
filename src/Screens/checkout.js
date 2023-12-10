@@ -31,6 +31,7 @@ import { addToCart, removeFromCart } from '../productActions';
     const price = location.state ? location.state.price : null;
     const cart = location.state ? location.state.cart : null;
     console.log(cart)
+    var [item,setitem]=useState(cart)
     console.log("Bill is "+price)
     const [paymentMethod, setPaymentMethod] = useState('cash');
 
@@ -60,7 +61,21 @@ import { addToCart, removeFromCart } from '../productActions';
         const emailData = {
           to: [userEmail,"l202064@lhr.nu.edu.pk"],
           subject: 'Order Placed',
-          text: 'Dear User Order Successfully Placed of PKR'+price+" It will Reach SooN"
+          html: `
+          <html>
+            <body>
+              <p>Dear User,</p>
+              <p>Your order has been successfully placed.</p>
+              <p>Order details:</p>
+              <ul>
+                <li>Product: ${JSON.stringify(item,null,2)}</li>
+                <li>Price: PKR ${price}</li>
+                <!-- Add more details as needed -->
+              </ul>
+              <p>It will reach you soon. Thank you for shopping with us!</p>
+            </body>
+          </html>
+        `,
       };
         if (response.ok) {
           const cart2 = location.state ? location.state.cart : null;

@@ -7,13 +7,12 @@ import Navbar from './navbar.js'
 import Slideshow from './slideshow.js'
 import ProductCard from './productcard.js'
 import About from './about.js'
-function HomeScreen()
-{
+import { UseSelector } from "react-redux/es/hooks/useSelector.js"
+function HomeScreen(){
+const dummyProductList = useSelector(state => state.addedProducts);
+const a=dummyProductList.length()
+alert(a)
 return(
-//   {  <AppFunc emotion={"sad"} Age={33} Gender={"MALE"}/>}
-// {<AppClass emotion={"sad"} Age={33}/>}
-//<Display name="Usman" age="21"/>Log
-//<Login/>
 <>
 <Navbar/>
 <Slideshow/>

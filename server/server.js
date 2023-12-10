@@ -11,7 +11,7 @@ app.use(bodyParser.json())
 app.post('/send-email', async (req, res) => {
   try {
     
-    const { to, subject, text } = req.body;
+    const { to, subject, html } = req.body;
 
     let mailTransporter = nodemailer.createTransport({
       service: 'gmail',
@@ -25,7 +25,7 @@ app.post('/send-email', async (req, res) => {
       from: 'azeemmuhammadusman@gmail.com',
       to,
       subject,
-      text
+      html
     };
 
     const info = await mailTransporter.sendMail(mailDetails);
