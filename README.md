@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+# Getting Started with Voguw Vista 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is an e-commerce website built using MERN with boostrap css.
 
 ## Available Scripts
 
