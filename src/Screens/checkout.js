@@ -1,5 +1,6 @@
 
 import React from 'react';
+import html2pdf from 'html2pdf.js';
 import {
     MDBAccordion,
     MDBAccordionItem,
@@ -57,7 +58,40 @@ import { addToCart, removeFromCart } from '../productActions';
           },
           body: JSON.stringify(checkoutData),
         });
-  
+        const text=checkoutData.totalBill+"\n"
+        //const prod=item.map((i)=>{return "Product : "+ i.name+" "+"Quantity : "+i.quantity+"\n"})
+    
+       const x= item.map((l)=>
+        {
+         return `<li><strong>${(l.name)}  Quantity :${l.quantity}</strong></li>`
+        }
+        )
+        const pdfOptions = {
+          margin: 10,
+          filename: 'order_confirmation.pdf',
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2 },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        };
+        const pdfContent = `
+        <html>
+          <body>
+            <p>Dear User,</p>
+            <p>Your order has been successfully placed.</p>
+            <p>Order details:</p>
+            <ul>
+              <li>Price: PKR <strong>${price}</strong></li>
+              ${x}
+            </ul>
+            <p>It will reach you soon. Thank you for shopping with us!</p>
+          </body>
+        </html>
+      `;
+        html2pdf().from(pdfContent).set(pdfOptions).save();
+      
+    
+        console.log(item)
+        //console.log(prod)
         const emailData = {
           to: [userEmail,"l202064@lhr.nu.edu.pk"],
           subject: 'Order Placed',
@@ -68,8 +102,8 @@ import { addToCart, removeFromCart } from '../productActions';
               <p>Your order has been successfully placed.</p>
               <p>Order details:</p>
               <ul>
-                <li>Product: ${JSON.stringify(item,null,2)}</li>
-                <li>Price: PKR ${price}</li>
+                <li>Price: PKR <strong>${price}</strong></li>
+                ${x}
                 <!-- Add more details as needed -->
               </ul>
               <p>It will reach you soon. Thank you for shopping with us!</p>
