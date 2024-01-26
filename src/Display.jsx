@@ -83,6 +83,7 @@ console.log(tempad)
         className="form-control"
         id="mybox"
         rows="8"
+        
         value={text}
         onChange={handlechange}
       ></textarea>
