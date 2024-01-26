@@ -19,8 +19,8 @@ return(
 <>
 <UserProvider>
       <Routes>
-        <Route path="/app" element={<Book/>}/>
-        <Route path="/" element={<Login />} />
+        <Route path="/app" element={<Book/>}/> 
+        <Route path="/" element={<Login />} /> 
         <Route path="/home" element={<Slideshow />} />
         <Route path="/products/:gender" element={<ProductCard />} />
         <Route path="/about" element={<About />} />

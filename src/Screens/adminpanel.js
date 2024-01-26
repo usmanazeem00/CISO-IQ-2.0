@@ -1,17 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+
 const AdminPanel = () => {
-  const navigation=useNavigate()
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    productid: '',
-      title: '',
-      gender: '',
-      price: 0,
-      description:'',
-      image: '',
-      quantity: 0,
+    productid: 0,
+    title: '',
+    gender: '',
+    price: 0,
+    description: '',
+    image: '',
+    quantity: 0,
   });
+  const [customerDetails, setCustomerDetails] = useState(null);
+  const [customerEmail,setCustomerEmail]=useState('')
+  const fetchCustomerDetails = async (customerEmail) => {
+    console.log(customerEmail)
+    try {
+      const response = await fetch(`/api/orders/count/${customerEmail}`);
+      if (!response.ok) {
+        console.error('Failed to fetch customer details:', response.statusText);
+        return;
+      }
+      const data = await response.json();
+    console.log(data)
+      setCustomerDetails("Email : "+data.useremail+"\n"+"Total Purchase Made : "+data.totalBill+"\nTotal Orders Made : "+data.ordersCount);
+    } catch (error) {
+      console.error('Error fetching customer details:', error.message);
+    }
+  };
+  const [quantitySold, setQuantitySold] = useState(-1);
+  const [find,setFind]=useState(0)
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,31 +43,27 @@ const AdminPanel = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form Data:', formData);
 
-try {
-       const response = await fetch('/api/products/add', {
-         method: 'POST',
-         headers: {
-           'Content-Type': 'application/json',
-         },
-         body: JSON.stringify(formData),
-       });
+    try {
+      const response = await fetch('/api/products/add', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
 
-       if (!response.ok) {
-         // Handle the error, e.g., show a message to the user
-         console.error('Failed to add product:', response.statusText);
-         return;
-       }
+      if (!response.ok) {
+        console.error('Failed to add product:', response.statusText);
+        return;
+      }
 
-       const data = await response.json();
-//       // Handle the response data as needed
-alert('Product Added Successfully')
-       console.log('Product added successfully:', data.product);
-     } catch (error) {
-       // Handle any unexpected errors
-       console.error('Error adding product:', error.message);
-   }
+      const data = await response.json();
+      alert('Product Added Successfully');
+      console.log('Product added successfully:', data.product);
+    } catch (error) {
+      console.error('Error adding product:', error.message);
+    }
 
     // Clear the form fields after submission
     setFormData({
@@ -55,14 +71,30 @@ alert('Product Added Successfully')
       title: '',
       gender: '',
       price: 0,
-      description:'',
+      description: '',
       image: '',
       quantity: 0,
     });
   };
 
+  const getQuantitySold = async (productId) => {
+    try {
+      const response = await fetch(`/api/products/${productId}/totalQuantitySold`);
+      if (!response.ok) {
+        console.error('Failed to get quantity sold:', response.statusText);
+        return;
+      }
+      const data = await response.json();
+      setQuantitySold(data.totalQuantitySold);
+    } catch (error) {
+      console.error('Error getting quantity sold:', error.message);
+    }
+  };
+
+
   return (
-    <div className="container mt-5">
+    <div className="container mt-5" style={{marginBottom:500}}>
+      <div className="container mt-5">
       <div className="row">
         <div className="col-md-6 mb-5">
           <img
@@ -166,6 +198,40 @@ alert('Product Added Successfully')
           </form>
         </div>
       </div>
+    </div>
+
+    
+  <div className="mt-3">
+    <button className="btn btn-primary" onClick={() => getQuantitySold(find)}>
+      Fetch Products Data
+    </button>
+    <input
+      type="text"
+      className="form-control mt-2"
+      placeholder="Enter Product ID"
+      onChange={(e) => setFind(e.target.value)}
+    />
+  {quantitySold !==-1 && (
+      <h4 className="mt-3" style={{ color: '#007BFF' }}>
+        Total Quantity Sold for Product ID {find}: {quantitySold}
+      </h4>
+  )}
+  </div>
+  <div className="mt-3">
+    <button className="btn btn-primary" onClick={() => {fetchCustomerDetails(customerEmail)}}>
+      Fetch Customer Details
+    </button>
+    <input
+      type="text"
+      className="form-control mt-2"
+      placeholder="Enter Customer Email"
+      onChange={(e) =>{setCustomerEmail(e.target.value)}}
+    />
+     <h4 className="mt-3" style={{ color: '#007BFF' }}>
+        Details: {customerDetails}
+      </h4>
+    </div>
+
     </div>
   );
 };
