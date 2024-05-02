@@ -14,7 +14,7 @@ import AdminPanel from "./Screens/adminpanel.js"
 import PriceItem from "./Screens/pricingComponent.js"
 import App from "./App.tsx"
 import Book from "./Book.tsx"
-
+import Main from "./Screens/Main.jsx"
 import SideMenu from "./Screens/menu.js"
 function New()
 {
@@ -23,7 +23,7 @@ return(
 <UserProvider>
       <Routes>
         <Route path="/app" element={<Book/>}/> 
-        <Route path="/" element={<SideMenu/>} /> 
+        <Route path="/" element={<Main/>} /> 
         <Route path="/pricing" element={<PriceItem />} />
         <Route path="/products/:gender" element={<ProductCard />} />
         <Route path="/about" element={<About />} />
