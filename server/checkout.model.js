@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
 
 const checkoutSchema = new mongoose.Schema({
+  orderid:String,
   useremail: String,
-  products: [{ productId: String, quantity: Number }],
+  products: [{ id: String, quantity: Number }],
   totalBill: Number,
   date: { type: Date, default: Date.now },
   paymentMethod: String,

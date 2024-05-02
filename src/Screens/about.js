@@ -6,11 +6,10 @@ const About = () => {
     <>
     <Navbar/>
     <Container className="mt-5 text-center">
-            <h2 style={{ backgroundColor: 'black', color: 'white', padding: '15px' }}>
+            <h2 style={{ backgroundColor: 'darkblue', color: 'white', padding: '15px' }}>
             Our Mission
         </h2>
     <Row>
-
         <Col md={6}>
         <img
             src="/Images/logo.png"
@@ -27,10 +26,6 @@ const About = () => {
     </Row>
       <Row className="mt-4 text-center">
         <Col>
-        <h2 style={{ backgroundColor: 'black', color: 'white', padding: '15px' }}>
-            Our Mission
-        </h2>
-
          <p>
           Our mission at Vouge Vista is to revolutionize the fashion landscape by providing a meticulously curated selection of clothing and accessories that embody sophistication, quality, and individual expression. Dedicated to delivering unparalleled excellence, we prioritize the use of premium materials and precise craftsmanship in every product. As we aspire to extend our influence globally, our unwavering commitment revolves around empowering individuals to embrace their unique style while ensuring the highest standards of customer satisfaction. Vouge Vista envisions not just being a fashion destination but a symbol of authenticity, innovation, and timeless elegance.
           </p>
@@ -38,7 +33,7 @@ const About = () => {
       </Row>
       <Row className="mt-4 text-center">
         <Col>
-        <h2 style={{ backgroundColor: 'black', color: 'white', padding: '15px' }}>
+        <h2 style={{ backgroundColor: 'darkblue', color: 'white', padding: '15px' }}>
             Our Team
         </h2>
         <div class="card-group">

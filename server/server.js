@@ -55,23 +55,88 @@ app.post("/api/login", async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Read the user from the database based on email and password
-    const user = await Users.findOne({ email: email, password: password });
+    // Read the user from the database based on email
+    const user = await Users.findOne({ email });
 
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
 
+    // Compare the hashed password with the provided password
+    const passwordMatch = await bcrypt.compare(password, user.password);
+
+    if (!passwordMatch) {
+      return res.status(401).json({ error: 'Incorrect password' });
+    }
+
     console.log('User:', user);
 
     // Send the user data in the response
-   return res.status(200).json({ user: { name: user.name, email: user.email } });
+    return res.status(200).json({ user: { name: user.name, email: user.email } });
   } catch (error) {
     console.error('Error reading user data:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
+app.post("/api/findcustomer/:email", async (req, res) => {
+  try {
+    const  email = req.params.email;
+console.log(email)
+    // Read the user from the database based on email and password
+    const nuser = await Users.findOne({email: email });
+
+    if (!nuser) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    console.log('User:', nuser);
+
+    // Send the user data in the response
+   return res.status(200).json(nuser);
+  } catch (error) {
+    console.error('Error reading user data:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+//get for a user
+
+app.get('/api/orders/count/:useremail', async (req, res) => {
+  try {
+    const { useremail } = req.params;
+const a=Users.findOne({email:useremail});
+console.log(a)
+if (a){
+    const userOrdersCount = await CheckOut.aggregate([
+      {
+        $match: {
+          useremail: useremail,
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalOrders: { $sum: 1 },
+          totalPurchase: { $sum: '$totalBill' },
+        },
+      },
+    ]);
+
+    const count = userOrdersCount[0]?.totalOrders || 0;
+    const bill = userOrdersCount[0]?.totalPurchase || 0;
+    res.json({ useremail, ordersCount: count,totalBill:bill });}
+    else { res.status(500).json({ error: 'Internal Server Error' });}
+  } catch (error) {
+    console.error('Error retrieving orders count:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+
+const bcrypt = require('bcrypt');
 app.post("/api/login/add", async (req, res) => {
   try {
     const { name,email, password } = req.body;
@@ -83,8 +148,10 @@ app.post("/api/login/add", async (req, res) => {
       console.log("already Exists")
       return res.status(404).json({ error: 'User Already Exists' });
     }
-
-    const newuser= new Users({name: name, email:email,password:password})
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    console.log("SAVED")
+    const newuser = new Users({ name:name, email, password: hashedPassword });
     const saveduser=await newuser.save()
    return res.status(200).json({ user: newuser });
   } catch (error) {
@@ -228,18 +295,62 @@ app.get('/api/products/:gender', async (req, res) => {
     }
 });
 
+//Stripe Code
+app.post('/charge', async (req, res) => {
+  const { token,amounts } = req.body;
+
+  try {
+    // Create a charge using the token
+    const charge = await stripe.charges.create({
+      amount: amounts, // Amount in cents
+      currency: 'usd',
+      description: 'Example Charge',
+      source: token.id,
+    });
+
+    // Handle successful payment
+    console.log('Charge:', charge);
+    res.status(200).json({ success: true, message: 'Payment succeeded' });
+  } catch (error) {
+    // Handle payment failure
+    console.error('Error:', error);
+    res.status(500).json({ success: false, message: 'Payment failed' });
+  }
+});
+//Get Quantity
+app.get('/api/products/:productId/totalQuantitySold', async (req, res) => {
+  try {
+    const productId = req.params.productId;
+
+    const totalQuantitySold = await CheckOut.aggregate([
+      { $unwind: '$products' },
+      { $match: { 'products.id': productId } },
+      { $group: { _id: null, totalQuantity: { $sum: '$products.quantity' } } }
+    ]);
+
+    if (totalQuantitySold.length > 0) {
+      res.json({ totalQuantitySold: totalQuantitySold[0].totalQuantity });
+    } else {
+      res.json({ totalQuantitySold: 0 });
+    }
+  } catch (error) {
+    console.error('Error retrieving total quantity sold:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 // add a checkout
 app.post('/api/checkout', async (req, res) => {
   try {
-    const { useremail, products, totalBill, paymentMethod } = req.body;
+    const {orderid, useremail, products, totalBill, paymentMethod } = req.body;
     console.log('Received Request Payload:', req.body);
     const newCheckout = new CheckOut({
+      orderid,
       useremail,
       products,
       totalBill,
       paymentMethod,
     });
-
+console.log("PRODUCTS",products)
     const savedCheckout = await newCheckout.save();
 console.log('Saved Checkout:', savedCheckout);
 res.json(newCheckout)

@@ -11,17 +11,20 @@ import CheckoutPage from "./Screens/checkout.js"
 import { UserProvider } from "./Screens/userContext.js"
 import OrderSuccess from "./Screens/success.jsx"
 import AdminPanel from "./Screens/adminpanel.js"
+import PriceItem from "./Screens/pricingComponent.js"
 import App from "./App.tsx"
 import Book from "./Book.tsx"
+
+import SideMenu from "./Screens/menu.js"
 function New()
 {
 return(
 <>
 <UserProvider>
       <Routes>
-        <Route path="/app" element={<Book/>}/>
-        <Route path="/" element={<Login />} />
-        <Route path="/home" element={<Slideshow />} />
+        <Route path="/app" element={<Book/>}/> 
+        <Route path="/" element={<SideMenu/>} /> 
+        <Route path="/pricing" element={<PriceItem />} />
         <Route path="/products/:gender" element={<ProductCard />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact_us" element={<ContactUs />} />
