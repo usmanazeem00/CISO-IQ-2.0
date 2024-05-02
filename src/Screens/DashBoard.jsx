@@ -48,9 +48,10 @@ const LineChart = () => {
     };
     setChartData(newData);
   };
+
   return (
     <div>
-      <h2>Lines Chart</h2>
+      <h2>Line Chart</h2>
       <button onClick={updateChartData}>Update Chart Data</button>
       <Line data={chartData} options={options} />
     </div>

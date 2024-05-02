@@ -10,7 +10,6 @@ const About = () => {
             Our Mission
         </h2>
     <Row>
-
         <Col md={6}>
         <img
             src="/Images/logo.png"
