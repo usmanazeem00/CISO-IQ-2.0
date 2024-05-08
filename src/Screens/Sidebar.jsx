@@ -6,7 +6,7 @@ import { BsFillGearFill,BsHouseFill,BsFlagFill } from "react-icons/bs";
 import './Main.css'
 export default function SideBar({openSideBarToggle,Open}) {
   return (
-    <aside id="sidebar" className={openSideBarToggle?"sidebar-responsive":""}>
+    <aside id="sidebar" className={openSideBarToggle?"sidebar-responsive":""} style={{fontFamily:'Outfit'}}>
       <div className="sidebar-title">
         <div className="sidebar-brand">
           <img src='/Images/CISOIQ.png' style={{width:158,height:37}} alt="CISO IQ"/>

@@ -1,8 +1,12 @@
 import React from "react";
-import './Main.css'
-import { BsFillArchiveFill,BsFillGrid3X3GapFill ,BsExclamationTriangleFill,BsPeopleFill,BsArrow90DegRight,BsBellFill, BsArchiveFill} from "react-icons/bs";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart,Rectangle,Bar } from 'recharts';
- const Home=()=>{
+import { BsArchiveFill, BsBellFill, BsExclamationTriangleFill, BsPeopleFill } from "react-icons/bs";
+import { Bar, BarChart, CartesianGrid, Legend, Line, LineChart, Rectangle, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import './Main.css';
+import ScrollView from "./ScrollBar";
+import GitHubAlert from "./gitHubalert";
+
+const Home=()=>{
+
     const data = [
         {
             name: '2018',
@@ -49,7 +53,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
       ];
       
     return(
-<main className="main-container">
+<main className="main-container" style={{fontFamily:'Outfit'}}>
     <div className="main-title">
         <h3 style={{color:'#48505E'}}>Dashboard</h3>
     </div>
@@ -87,6 +91,65 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
         <h1>3089</h1>
     </div>
     </div>
+    <div className="charts2">
+    <div className="chart-container">
+       <div className="container2" style={{display:'flex',flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
+        <div >Recent Alerts</div>
+        <div><img src='/Images/slack.png' style={{height:20,width:94}}/></div>
+       </div>
+       <div class="container2" style={{display:'flex',flexDirection:'row',justifyContent:'flex-start',padding:5,alignItems:'center'}}>
+        <div className="font">All</div>
+        <div className="font">Low</div>
+        <div className="font">Medium</div>
+        <div className="font">High</div>
+       </div>
+       <GitHubAlert  message={"Github’s repository was breached severely Against Lori Bryson’s account."} icon={'GitHub'} level={'High'}/>
+       <GitHubAlert  message={"Hugging Face’s repository was breached severely Against Lori Bryson’s account."} icon={'Hugging Face'} level={'Low'}/>
+       <GitHubAlert  message={"GitLab’s repository was breached severely Against Lori Bryson’s account."} icon={'GitLab'} level={'Medium'}/>
+       <GitHubAlert  message={"BitBuckets’s repository was breached severely Against Lori Bryson’s account."} icon={'BitBucket'} level={'Medium'}/>
+      <div style={{width:'100%',textAlign:'center',fontFamily:'Outfit'}}>View More</div>
+    </div>
+    <div class="chart-container">
+      <div style={{fontSize:18,fontWeight:'700'}}>
+        Top Risk Users
+      </div>
+        <ScrollView>
+        <div style={{display:'flex',padding:'10px 5px 10px 5px',flexDirection:'row',alignItems:'center' ,borderStyle:'solid',borderBottomWidth:1,borderTopWidth:0,borderLeftWidth:0,borderRightWidth:0}} alt="pic">
+            <img src="/Images/Usman.JPG" style={{ height:36,width:36 ,borderRadius:100}} />
+            <div style={{marginLeft:10}}>Usman</div>
+          </div>
+          <div style={{ display:'flex',padding:'10px 5px 10px 5px',flexDirection:'row',alignItems:'center' ,borderStyle:'solid',borderBottomWidth:1,borderTopWidth:0,borderLeftWidth:0,borderRightWidth:0}} alt="pic">
+            <img src="/Images/eagle.jpg" style={{ height:36,width:36 ,borderRadius:100}} />
+            <div style={{marginLeft:10}}>Martin</div>
+          </div>
+          <div style={{ display:'flex',padding:'10px 5px 10px 5px',flexDirection:'row',alignItems:'center' ,borderStyle:'solid',borderBottomWidth:1,borderTopWidth:0,borderLeftWidth:0,borderRightWidth:0}} alt="pic">
+            <img src="/Images/eagle.jpg" style={{ height:36,width:36 ,borderRadius:100}} />
+            <div style={{marginLeft:10}}>Martin</div>
+          </div>
+          <div style={{ display:'flex',padding:'10px 5px 10px 5px',flexDirection:'row',alignItems:'center' ,borderStyle:'solid',borderBottomWidth:1,borderTopWidth:0,borderLeftWidth:0,borderRightWidth:0}} alt="pic">
+            <img src="/Images/eagle.jpg" style={{ height:36,width:36 ,borderRadius:100}} />
+            <div style={{marginLeft:10}}>Martin</div>
+          </div>
+          <div style={{ display:'flex',padding:'10px 5px 10px 5px',flexDirection:'row',alignItems:'center' ,borderStyle:'solid',borderBottomWidth:1,borderTopWidth:0,borderLeftWidth:0,borderRightWidth:0}} alt="pic">
+            <img src="/Images/eagle.jpg" style={{ height:36,width:36 ,borderRadius:100}} />
+            <div style={{marginLeft:10}}>Martin</div>
+          </div>
+          <div style={{ display:'flex',padding:'10px 5px 10px 5px',flexDirection:'row',alignItems:'center' ,borderStyle:'solid',borderBottomWidth:1,borderTopWidth:0,borderLeftWidth:0,borderRightWidth:0}} alt="pic">
+            <img src="/Images/eagle.jpg" style={{ height:36,width:36 ,borderRadius:100}} />
+            <div style={{marginLeft:10}}>Martin</div>
+          </div>
+          <div style={{ display:'flex',padding:'10px 5px 10px 5px',flexDirection:'row',alignItems:'center' ,borderStyle:'solid',borderBottomWidth:1,borderTopWidth:0,borderLeftWidth:0,borderRightWidth:0}} alt="pic">
+            <img src="/Images/eagle.jpg" style={{ height:36,width:36 ,borderRadius:100}} />
+            <div style={{marginLeft:10}}>Martin</div>
+          </div>
+          <div style={{ display:'flex',padding:'10px 5px 10px 5px',flexDirection:'row',alignItems:'center' ,borderStyle:'solid',borderBottomWidth:1,borderTopWidth:0,borderLeftWidth:0,borderRightWidth:0}} alt="pic">
+            <img src="/Images/eagle.jpg" style={{ height:36,width:36 ,borderRadius:100}} />
+            <div style={{marginLeft:10}}>Martin</div>
+          </div>
+        </ScrollView>
+    </div>
+</div>
+
         <div className="charts">
         <ResponsiveContainer width="100%" height="100%" style={{backgroundColor:'white'}}>
         <BarChart
@@ -109,7 +172,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
           <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
         </BarChart>
       </ResponsiveContainer>
-      <ResponsiveContainer width="100%" height="100%" style={{backgroundColor:'white'}}>
+      <ResponsiveContainer width="100%" height="100%" style={{backgroundColor:'white'}} className="abc">
         <LineChart
           width={500}
           height={300}
